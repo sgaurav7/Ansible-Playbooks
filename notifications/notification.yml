@@ -1,0 +1,8 @@
+---
+ - name: Playbook to send notification
+   hosts: all
+   vars:
+    salutation: Hello Tech Guys!! Happy Learning!!
+   tasks:
+    - name: Sending notification to the users logged in to the servers
+      command: wall "{{ salutation }}"
