@@ -1,0 +1,34 @@
+---
+- name: Configuration Apache servers
+  hosts: all
+  tasks:
+    - name: Install Apache packages
+      yum:
+        name: httpd
+        state: present
+
+    - name: Starting Apache service
+      service:
+        name: httpd
+        state: started
+
+    - name: Add firewall rule to allow HTTP traffic
+      firewalld:
+        port: 80/tcp
+        permanent: true
+        state: enabled
+
+    - name: Reload firewalld
+      systemd:
+        name: firewalld
+        state: reloaded
+
+    - name: Copy index file to the Apache servers
+      copy:
+        src: /tmp/index.html  # Source location of the index.html file on the Ansible master server
+        dest: /var/www/html/   # Destination location on the remote hosts
+
+    - name: Restarting Apache service after all the required changes
+      service:
+        name: httpd
+        state: restarted
