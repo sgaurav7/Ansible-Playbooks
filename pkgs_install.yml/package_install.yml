@@ -1,0 +1,14 @@
+---
+  - name: Playbook for the installation of packages on the linux server
+    hosts: all  # Define the group or indidiual hosts or all the hosts'
+    vars:
+      pkg_name: 
+        - httpd
+        - curl
+        - cmake
+        - wget
+    tasks:
+      - name: Install the package
+        yum:
+         name: "{{ pkg_name}}"
+         state: present
